@@ -57,6 +57,7 @@ def get_dataframe_from_parquet(par_name):
 
 df = get_dataframe_from_parquet('e744a8ed50e64f5b8f56d3bab9f2cd1d-0.parquet')
 
+
 # Builds grid for each solar time stamp
 # The data is contained in individual (for each time) dataframe df
 def build_grid_for_timestamp(df, res):
@@ -269,7 +270,7 @@ if __name__ == "__main__":
     predicted_next_images = model.predict([test_images, test_times])
 
     # Calculate the loss (Mean Squared Error) between the predicted and actual next images
-    mse_loss = tf.keras.losses.mean_squared_error(actual_next_images, predicted_next_images)
+    mse_loss = tf.keras.losses.MeanSquaredError(actual_next_images, predicted_next_images)
 
     # Print the MSE loss for each test sample
     for i, loss in enumerate(mse_loss):

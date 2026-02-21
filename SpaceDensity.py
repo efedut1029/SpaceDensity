@@ -270,7 +270,10 @@ if __name__ == "__main__":
     predicted_next_images = model.predict([test_images, test_times])
 
     # Calculate the loss (Mean Squared Error) between the predicted and actual next images
-    mse_loss = tf.keras.losses.MeanSquaredError(actual_next_images, predicted_next_images)
+    # Option 1: instantiate the loss object (use new method)
+    mse = tf.keras.losses.MeanSquaredError()
+    mse_loss = mse(actual_next_images, predicted_next_images)
+
 
     # Print the MSE loss for each test sample
     for i, loss in enumerate(mse_loss):

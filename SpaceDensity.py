@@ -273,12 +273,11 @@ if __name__ == "__main__":
     # Option 1: instantiate the loss object (use new method)
     mse = tf.keras.losses.MeanSquaredError()
     mse_loss = mse(actual_next_images, predicted_next_images)
+    print(f"MSE Loss (batch): {mse_loss.numpy():.6f}")
 
+    mse = tf.keras.losses.MeanSquaredError(reduction='none')
+    mse_loss = mse(actual_next_images, predicted_next_images)  # shape: (batch_size, ...)
 
-    # Print the MSE loss for each test sample
-    for i, loss in enumerate(mse_loss):
-        print(f"Test Sample {i+1} - MSE Loss: {loss.numpy():.6f}")
-
-    # Print the average MSE loss across the 10 test samples
-    avg_mse_loss = tf.reduce_mean(mse_loss).numpy()
-    print(f"Average MSE Loss for 10 test samples: {avg_mse_loss:.6f}")
+    # If you want one value per sample, average over remaining axes except batch:
+    per_sample_loss = tf.reduce_mean(mse_loss, axis=list(range(1, len(mse_loss.shape))))
+    print(f"Mean MSE loss: {per_sample_loss}")
